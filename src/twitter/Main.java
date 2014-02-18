@@ -1,0 +1,63 @@
+package twitter;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * This is the main program.
+ * 
+ * You may change this class if you wish, but you don't have to.
+ * 
+ */
+public class Main {
+
+    /**
+     * URL of a server that produces a list of tweets sampled from Twitter within the last hour.  
+     * This server may take up to a minute to respond, if it has to refresh its cached sample of tweets.
+     */
+    public static final URL SAMPLE_SERVER = makeURL_assertWellFormatted("http://courses.csail.mit.edu/6.005/ps1_tweets/tweetPoll.py");
+    private static URL makeURL_assertWellFormatted(String urlString){
+        try {
+            return new URL(urlString);
+        } catch (MalformedURLException e) {
+            throw new AssertionError(e);
+        }
+    }
+    
+    /**
+     * Main method of the program.  Fetches a sample of tweets from a 6.005 and prints some facts about it.
+     * @param args  command-line arguments (not used)
+     */
+    public static void main(String[] args) {
+        List<Tweet> tweets;
+        try {
+            tweets = TweetReader.readTweetsFromWeb(SAMPLE_SERVER);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        
+        // display some characteristics about the tweets
+        System.err.println("fetched " + tweets.size() + " tweets");
+        
+        Timespan span = Extract.getTimespan(tweets);
+        System.err.println("ranging from " + span.getStart() + " to " + span.getEnd());
+        
+        Set<String> mentionedUsers = Extract.getMentionedUsers(tweets);
+        System.err.println("covers " + mentionedUsers.size() + " Twitter users");
+        
+        // infer the follows graph
+        Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(tweets);
+        System.err.println("follows graph has " + followsGraph.size() + " nodes");
+        
+        // print the top-10 influencers
+        List<String> influencers = SocialNetwork.influencers(followsGraph);
+        for (String username : influencers.subList(0, Math.min(10, influencers.size()))) {
+            System.out.println(username);
+        }
+    }
+    
+}
