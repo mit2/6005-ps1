@@ -35,6 +35,10 @@ public class Extract {
      *         Twitter usernames are case-insensitive, so "rbmllr" and "RbMllr"
      *         are equivalent.  A username may occur at most once in the returned 
      *         set.
+     * 
+     *         The @ cannot be immediately preceded by an alphanumeric or
+     *         underscore character (A-Z, a-z, 0-9, _). For example, an email
+     *         address like bitdiddle@mit.edu does not contain a mention of mit.
      */
     public static Set<String> getMentionedUsers(List<Tweet> tweets) {
         throw new RuntimeException("not implemented");
