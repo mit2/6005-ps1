@@ -25,11 +25,11 @@ public class Extract {
     }
 
     /**
-     * Get usernames mentioned in a tweet.
+     * Get usernames mentioned in a list of tweets.
      * 
      * @param tweets
      *            list of tweets, not modified by this method.
-     * @return the set of usernames who are mentioned in the text of the tweet.
+     * @return the set of usernames who are mentioned in the text of the tweets.
      *         A username-mention is "@" followed by a username. A username
      *         consists of letters (A-Z or a-z), digits, and underscores ("_").
      *         Twitter usernames are case-insensitive, so "rbmllr" and "RbMllr"
