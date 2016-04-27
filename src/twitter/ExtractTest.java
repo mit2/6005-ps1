@@ -128,9 +128,68 @@ public class ExtractTest {
     /**-------------------------------------------------------------------------------**/
     @Test
     public void testGetMentionedUsersNoMention() {
-        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1));
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1, tweet2));
         
         assertTrue(mentionedUsers.isEmpty());
     }
 
+    @Test
+    public void testGetMentionedUsersOneMention() {
+        List<Tweet> tlist = new ArrayList<Tweet>();
+        tlist.add(new Tweet(1, "alyssa", "is it reasonable to talk @tweetuser. about rivest so much?", new Date(2015, 4, 22, 9, 0, 6)));
+        Set<String> mentionedUsers = Extract.getMentionedUsers(tlist); 
+        assertTrue("Fail to get tweet mentioner", mentionedUsers.contains("@tweetuser"));
+        
+    }
+    
+    @Test
+    public void testGetMentionedUsersMulltipleMention() {
+        List<Tweet> tlist = new ArrayList<Tweet>();
+        tlist.add(new Tweet(1, "alyssa", "is it reasonable to talk @tweetuser. about rivest so much?", new Date(2015, 4, 22, 9, 0, 6)));
+        tlist.add(new Tweet(2, "alyssa", "is it reasonable to talk @about rivest so much?", new Date(2015, 4, 22, 9, 0, 15)));
+        tlist.add(new Tweet(3, "alyssa", "is it reasonable to talk about @rivest so much?", new Date(2015, 4, 22, 9, 0, 25)));
+        tlist.add(new Tweet(4, "alyssa", "is it reasonable to talk about rivest @so much?", new Date(2015, 4, 22, 9, 0, 26))); 
+        Set<String> mentionedUsers = Extract.getMentionedUsers(tlist); 
+        assertTrue("Fail to get tweet mentioner", mentionedUsers.contains("@tweetuser"));
+        assertTrue("Fail to get tweet mentioner", mentionedUsers.contains("@about"));
+        assertTrue("Fail to get tweet mentioner", mentionedUsers.contains("@rivest"));
+        assertTrue("Fail to get tweet mentioner", mentionedUsers.contains("@so"));
+    }
+    
+    @Test
+    public void testGetMentionedUsersReapitedNames() {
+        List<Tweet> tlist = new ArrayList<Tweet>();
+        tlist.add(new Tweet(1, "alyssa", "is it reasonable to talk tweetuser. about rivest so much?", new Date(2015, 4, 22, 9, 0, 6)));
+        tlist.add(new Tweet(2, "alyssa", "is it reasonable to talk about @rivest so @rivest much?", new Date(2015, 4, 22, 9, 0, 15)));
+        tlist.add(new Tweet(3, "alyssa", "is it reasonable to talk about @rivest so much?", new Date(2015, 4, 22, 9, 0, 25)));
+         
+        Set<String> mentionedUsers = Extract.getMentionedUsers(tlist); 
+        assertEquals(1, mentionedUsers.size());
+        
+    }
+    
+    @Test
+    public void testGetMentionedUsersValidNames() {
+        List<Tweet> tlist = new ArrayList<Tweet>();
+        tlist.add(new Tweet(1, "alyssa", "is it reasonable to talk @tweetuser. about rivest so much?", new Date(2015, 4, 22, 9, 0, 6)));
+        tlist.add(new Tweet(2, "alyssa", "is it reasonable to talk abo@ut rivest so much?", new Date(2015, 4, 22, 9, 0, 15)));
+        tlist.add(new Tweet(3, "alyssa", "is it reasonable to talk about @riv-est so much?", new Date(2015, 4, 22, 9, 0, 25)));
+        tlist.add(new Tweet(4, "alyssa", "is it reasonable to talk about rivest @so123 much?", new Date(2015, 4, 22, 9, 0, 26))); 
+        Set<String> mentionedUsers = Extract.getMentionedUsers(tlist); 
+        assertTrue("Fail to get tweet mentioner", mentionedUsers.contains("@tweetuser"));
+        assertFalse("Fail to get tweet mentioner", mentionedUsers.contains("abo@ut"));
+        assertFalse("Fail to get tweet mentioner", mentionedUsers.contains("@riv-est"));
+        assertTrue("Fail to get tweet mentioner", mentionedUsers.contains("@so123"));
+    }
+    
+    @Test
+    public void testGetMentionedUsersCaseInsensitive() {
+        System.out.println("testGetMentionedUsersCaseInsensitive");
+        List<Tweet> tlist = new ArrayList<Tweet>();
+        tlist.add(new Tweet(1, "alyssa", "is it reasonable to @tALk  about rivest so much?", new Date(2015, 4, 22, 9, 0, 6)));
+        tlist.add(new Tweet(2, "alyssa", "is it reasonable to @TALK  rivest so much?", new Date(2015, 4, 22, 9, 0, 15)));
+        Set<String> mentionedUsers = Extract.getMentionedUsers(tlist); 
+        assertTrue("Fail to get tweet mentioner", mentionedUsers.contains("@talk"));
+    }
+    
 }

@@ -32,9 +32,6 @@ public class SocialNetwork {
      *         tweets. One kind of evidence that Ernie follows Bert is if Ernie
      *         @-mentions Bert in a tweet. This must be implemented. Other kinds
      *         of evidence may be used at the implementor's discretion.
-     *         
-     *         All the Twitter usernames in the returned social network must be
-     *         eitether authors or @-mentions in the list of tweets.
      */
     public static Map<String, Set<String>> guessFollowsGraph(List<Tweet> tweets) {
         throw new RuntimeException("not implemented");

@@ -1,8 +1,10 @@
 package twitter;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 /**
  * Extract consists of methods that extract information from a list of tweets.
@@ -24,7 +26,7 @@ public class Extract {
     public static Timespan getTimespan(final List<Tweet> tweets) {
         //throw new RuntimeException("not implemented");
         assert(tweets.isEmpty() != true): "tweet list is empty!";
-        //if(tweets.isEmpty()) System.out.println("tweetlist is empty!");
+        if(tweets.isEmpty())throw new AssertionError();
         
         // MyNotes: usually 1st implementation is not efficient
         long interval = 0, minInterval = 0;
@@ -70,7 +72,20 @@ public class Extract {
      *         address like bitdiddle@mit.edu does not contain a mention of mit.
      */
     public static Set<String> getMentionedUsers(final List<Tweet> tweets) {
-        throw new RuntimeException("not implemented");
+        //throw new RuntimeException("not implemented");
+        Set<String> setOfUsers = new HashSet<String>();
+        String token;
+        for(int i = 0; i < tweets.size(); i++){
+            StringTokenizer st = new StringTokenizer(tweets.get(i).getText());
+            while (st.hasMoreTokens()) {
+                token = st.nextToken();
+                //System.out.println(token);
+                if (token.endsWith(".")) token = new String(token.substring(0, token.length()- 1));
+                if(token.matches("^[@][a-zA-Z_0-9]*")) setOfUsers.add(token.toLowerCase());
+            }         
+        }
+        
+        return setOfUsers;
     }
 
 }
