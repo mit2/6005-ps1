@@ -36,7 +36,7 @@ public class FilterTest {
         d2 = calendar.getTime();
         
         tweet1 = new Tweet(0, "alyssa", "is it reasonable to talk about rivest so much?", d1);
-        tweet2 = new Tweet(1, "bbitdiddle", "rivest talk in 30 minutes #hype", d2);
+        tweet2 = new Tweet(1, "bbitdiddle", "so rivest talk in 30 minutes #hype", d2);
         
         // MyNote: Date and Calendar Classes generate diff timestamps for equal time!
         tlist = new ArrayList<Tweet>();
@@ -243,5 +243,60 @@ public class FilterTest {
         assertFalse(containing.isEmpty());
         assertTrue(containing.containsAll(Arrays.asList(tweet1, tweet2)));
     }
-
+    
+    @Test
+    public void testContainingEmptyTweetListAndEmptyWordList() { // --> []
+        List<Tweet> tlist_0 = new ArrayList<Tweet>();
+        List<Tweet> containing = Filter.containing(tlist_0, new ArrayList<String>());
+        assertTrue(containing.isEmpty());
+        
+        
+    }
+    
+    @Test
+    public void testContainingSingletonTweetListAndEmptyWordList() { // --> []
+        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1), new ArrayList<String>());
+        
+        assertTrue(containing.isEmpty());
+        assertEquals(0, containing.size());
+        
+    }
+    
+    @Test
+    public void testContainingEmptyTweetListAndSigletonWordList() { // --> []
+        List<Tweet> containing = Filter.containing(new ArrayList<Tweet>(), Arrays.asList("talk"));
+        
+        assertTrue(containing.isEmpty());
+        assertEquals(0, containing.size());
+        
+    }
+    
+    @Test
+    public void testContainingSingletonTweetListAndSingletonWordListOneMatch() { // --> [1,]
+        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1), Arrays.asList("talk"));
+        
+        assertFalse(containing.isEmpty());
+        assertTrue(containing.containsAll(Arrays.asList(tweet1)));
+    }
+    
+    @Test
+    public void testContainingSingletonTweetListAndMultipleWordListOneWordMatch() { // --> []
+        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1), Arrays.asList("talk", "boom", "doom"));        
+        assertTrue(containing.isEmpty());        
+    }
+    
+    @Test
+    public void testContainingMultipleTweetListAndMultipleWordListFullWordsMatch() { // --> [1, ...]
+        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet2), Arrays.asList("talk", "so"));
+        
+        assertFalse(containing.isEmpty());
+        assertTrue(containing.containsAll(Arrays.asList(tweet1, tweet2)));  
+    }
+    
+    @Test
+    public void testContainingMultipleTweetListAndMultipleWordListNoWordsMatch() { // --> []
+        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet2), Arrays.asList("bee", "dee", "see"));
+        
+        assertTrue(containing.isEmpty());        
+    }
 }

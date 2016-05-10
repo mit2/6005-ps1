@@ -97,7 +97,27 @@ public class Filter {
      *         "Obama" is the same as "obama".
      */
     public static List<Tweet> containing(final List<Tweet> tweets, final List<String> words) {
-        throw new RuntimeException("not implemented");
+        //throw new RuntimeException("not implemented");
+        
+      //asserting that words and list of tweets is defined
+        List<Tweet> matchedTweets = new ArrayList<Tweet>();
+        int match = 0;
+        Assert.assertNotNull(tweets);
+        Assert.assertNotNull(words);
+        
+        if((tweets.isEmpty() && words.isEmpty()) || tweets.isEmpty() || words.isEmpty()){
+            return matchedTweets;
+        }else{
+            for(Tweet tweet: tweets){
+                for(String word: words){
+                    if(tweet.getText().contains(word)) match++;
+                }
+                if(match == words.size()) matchedTweets.add(tweet);
+                match = 0;
+            }
+        }
+        
+        return matchedTweets;
 
     }
 
