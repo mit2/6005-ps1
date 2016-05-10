@@ -47,7 +47,7 @@ public class Extract {
             }
             
         }
-        return tweets.isEmpty()? new Timespan(new Date(2015, 4, 22, 0, 0, 0), new Date(2015, 4, 22, 0, 0, 0)): span;
+        return span;
     }
 
     /**
