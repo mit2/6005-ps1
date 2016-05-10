@@ -82,7 +82,7 @@ public class Filter {
         return matchedTweets;
     }
 
-    /**
+    /** 
      * Search for tweets that contain certain words.
      * 
      * @param tweets

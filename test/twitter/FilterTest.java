@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /*
- * TODO: your testing strategies for these methods should go here
+ * TODO: your testing strategies for these methods should go here 
  */
 
 public class FilterTest {
