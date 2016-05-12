@@ -28,13 +28,13 @@ public class Filter {
     public static List<Tweet> writtenBy(final List<Tweet> tweets, final String username) {
         //throw new RuntimeException("not implemented");
         
-        // WORNING! 'Assert' only error conditions NOT specified by specs, as 'wrong' func input params.
+        // WARNING! 'Assert' only error conditions NOT specified by specs, as 'wrong' func input params.
         //           Any error 'within' the specs should be covered buy tests. 
         //assert(tweets.isEmpty() != true): "tweet list is empty!"; // Java assertion only for expensive assertions!
         //if(tweets.isEmpty()|| username.isEmpty())throw new AssertionError();
         
         List<Tweet> matchedTweets = new ArrayList<Tweet>();
-        Assert.assertNotNull(tweets); // Constant-time checks should be always like this
+        Assert.assertNotNull(tweets); // Precondition constant-time checks should be always done like this
         Assert.assertNotNull(username); 
         
         if((tweets.isEmpty() && username.isEmpty()) || tweets.isEmpty() || username.isEmpty()){
@@ -59,11 +59,7 @@ public class Filter {
      */
     public static List<Tweet> inTimespan(final List<Tweet> tweets, final Timespan timespan) {
         //throw new RuntimeException("not implemented");
-        
-        //asserting that Timespan and list of tweets is defined
         List<Tweet> matchedTweets = new ArrayList<Tweet>();
-        Assert.assertNotNull(tweets);
-        Assert.assertNotNull(timespan);
         
         if(tweets.isEmpty() && (timespan.getStart().equals(timespan.getEnd()))){ // checking if getStart and getEnd is equal Date objs.
             return matchedTweets;
@@ -97,14 +93,10 @@ public class Filter {
      *         "Obama" is the same as "obama".
      */
     public static List<Tweet> containing(final List<Tweet> tweets, final List<String> words) {
-        //throw new RuntimeException("not implemented");
-        
-      //asserting that words and list of tweets is defined
+        //throw new RuntimeException("not implemented");        
         List<Tweet> matchedTweets = new ArrayList<Tweet>();
         int match = 0;
-        Assert.assertNotNull(tweets);
-        Assert.assertNotNull(words);
-        
+       
         if((tweets.isEmpty() && words.isEmpty()) || tweets.isEmpty() || words.isEmpty()){
             return matchedTweets;
         }else{
