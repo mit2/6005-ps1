@@ -49,7 +49,7 @@ public class SocialNetwork {
         Set<String> personsToFollow;
         
         if(tweets.isEmpty()){
-            return snet;
+            return snet; 
         }else{
             for(Tweet tweet: tweets){
                 member = tweet.getAuthor();

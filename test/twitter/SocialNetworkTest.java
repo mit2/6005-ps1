@@ -32,7 +32,7 @@ public class SocialNetworkTest {
         calendar.set(2014, 1, 14, 10, 00, 00);
         d1 = calendar.getTime();
         
-        calendar.set(2014, 1, 14, 11, 00, 00);
+        calendar.set(2014, 1, 14, 11, 00, 00); 
         d2 = calendar.getTime();
         
         tweet1 = new Tweet(0, "alyssa", "is it reasonable to talk about rivest so much?", d1);
